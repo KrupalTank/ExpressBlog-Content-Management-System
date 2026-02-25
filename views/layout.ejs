@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blog Website</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <% if (user) { %>
+      <a href="/create">New Post</a>
+      <a href="/profile">My Profile</a>
+      <a href="/logout">Logout (<%= user.username %>)</a>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/signup">Signup</a>
+    <% } %>
+  </nav>
+  <div class="container">
+    <%- body %>   <!-- 👈 this will now work -->
+  </div>
+</body>
+</html>

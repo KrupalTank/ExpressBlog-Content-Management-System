@@ -1,0 +1,20 @@
+<div class="post-container">
+  <h2><%= post.title %></h2>
+  <p><strong>Category:</strong> <%= post.category %></p>
+  <p><strong>Author:</strong> <%= post.author.username %></p>
+  <div class="content">
+    <p><%= post.content %></p>
+  </div>
+  <p><em>Posted on: <%= post.createdAt.toDateString() %></em></p>
+
+  <% if (user && (user.role === "admin" || user._id.toString() === post.author._id.toString())) { %>
+    <div class="actions">
+      <a href="/edit/<%= post._id %>" class="btn-edit">Edit Post</a>
+      <form method="POST" action="/delete/<%= post._id %>" 
+            style="display:inline; margin-left:8px;" 
+            onsubmit="return confirm('Are you sure you want to delete this post? This action cannot be undone.');">
+        <button type="submit" class="btn-delete">Delete Post</button>
+      </form>
+    </div>
+  <% } %>
+</div>

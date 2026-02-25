@@ -1,0 +1,16 @@
+
+<h2>Welcome, <%= user.username %>!</h2>
+<p>Your role: <%= user.role %></p>
+
+<h3>Your Posts:</h3>
+<ul>
+  <% posts.forEach(post => { %>
+    <li>
+      <a href="/post/<%= post._id %>"><%= post.title %></a>
+      <form method="POST" action="/delete/<%= post._id %>" style="display:inline;">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+<a href="/create">Create New Post</a>

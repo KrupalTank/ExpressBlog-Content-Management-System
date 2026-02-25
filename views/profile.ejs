@@ -1,0 +1,21 @@
+<h2><%= user.username %>'s Profile</h2>
+<h3>Your Blog Posts</h3>
+
+<% if (posts.length === 0) { %>
+  <p>You haven't written any posts yet.</p>
+<% } else { %>
+  <% posts.forEach(post => { %>
+    <div class="card">
+      <h4><%= post.title %></h4>
+      <p><%= post.content.length > 200 ? post.content.substring(0, 200) + "..." : post.content %></p>
+      <a href="/post/<%= post._id %>">Read More</a>
+
+      <!-- Edit & Delete only for the owner -->
+      <a href="/post/<%= post._id %>/edit" class="btn-edit">Edit</a>
+      <form action="/post/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;"
+            onsubmit="return confirm('Are you sure you want to delete this post?');">
+        <button type="submit" class="btn-delete">Delete</button>
+      </form>
+    </div>
+  <% }) %>
+<% } %>
