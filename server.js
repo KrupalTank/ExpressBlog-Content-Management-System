@@ -7,8 +7,10 @@ const expressLayouts = require("express-ejs-layouts");
 const bcrypt = require("bcryptjs");
 const User = require("./models/user");
 const Post = require("./models/post");
+require("dotenv").config();
 const app = express();
-
+const PORT = process.env.PORT || 3000;
+app.set("trust proxy", 1);
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -20,10 +22,12 @@ app.set("layout", "layout"); // layout.ejs is the base template
 // Session
 app.use(
   session({
-    secret: "secretkey",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/blogDB" }),
+    store: MongoStore.create({
+  mongoUrl: process.env.MONGO_URI
+}),
   })
 );
 
@@ -222,11 +226,12 @@ app.get("/profile", requireLogin, async (req, res) => {
 });
 
 // ---------------------- DB + SERVER ----------------------
+
 mongoose
-  .connect("mongodb://127.0.0.1:27017/blogDB")
-  .then(() =>
-    app.listen(3000, () =>
-      console.log("Server running on http://localhost:3000")
-    )
-  )
-  .catch((err) => console.log(err));
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch(err => console.log(err));
